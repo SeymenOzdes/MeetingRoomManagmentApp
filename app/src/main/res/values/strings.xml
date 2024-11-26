@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MeetingRoom</string>
+    <string-array name="meetingRooms">
+        <item>M201</item>
+        <item>M202</item>
+        <item>M203</item>
+        <item>M204</item>
+        <item>M205</item>
+    </string-array>
+</resources>
