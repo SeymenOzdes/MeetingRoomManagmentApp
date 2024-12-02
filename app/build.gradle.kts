@@ -49,4 +49,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("io.ktor:ktor-client-core:$ktor_version")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("androidx.activity:activity-ktx:1.8.2")
 }
