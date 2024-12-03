@@ -14,7 +14,7 @@ import com.example.meetingroom.R
 import com.example.meetingroom.viewModel.LoginAndSignInViewModel
 
 class SignInActivity : AppCompatActivity() {
-    private val LoginAndSignInViewModel: LoginAndSignInViewModel by viewModels()
+    private val loginAndSignInViewModel: LoginAndSignInViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,22 +26,24 @@ class SignInActivity : AppCompatActivity() {
         val passwordField: TextView = findViewById(R.id.passwordEditText)
         val emailField: TextView = findViewById(R.id.emailEditText)
 
-        LoginAndSignInViewModel.errorMessage.observe(this, Observer { errorMessage ->
-            errorMessage?.let {showErrorDialog(it) }
-            }
-        )
+        loginAndSignInViewModel.errorMessage.observe(this, Observer { errorMessage ->
+            errorMessage?.let { showErrorDialog(it) }
+        })
 
         signUpButton.setOnClickListener {
             val name = textField.text.toString().trim()
             val password = passwordField.text.toString().trim()
             val email = emailField.text.toString().trim()
-            if (LoginAndSignInViewModel.validateForm(name, password, email)) {
-                Toast.makeText(this, "kayıt Olundu", Toast.LENGTH_SHORT).show()
+
+            if (loginAndSignInViewModel.validateForm(name, password, email)) {
+                loginAndSignInViewModel.addUser(name, password, email)
+                Toast.makeText(this, "Kayıt olundu", Toast.LENGTH_SHORT).show()
                 val loginIntent = Intent(this, LoginActivity::class.java)
                 startActivity(loginIntent)
             }
         }
     }
+
     fun showErrorDialog(message: String) {
         AlertDialog.Builder(this)
             .setTitle("Error")
