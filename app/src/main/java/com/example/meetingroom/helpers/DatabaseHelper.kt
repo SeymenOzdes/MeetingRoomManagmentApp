@@ -4,13 +4,11 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
-import kotlin.math.log
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSİON) {
     companion object {
         private const val DATABASE_NAME = "meeting_room.db"
-        private const val DATABASE_VERSİON = 1
+        private const val DATABASE_VERSİON = 2
 
         const val TABLE_NAME = "users"
         const val COLUMN_ID = "id"
@@ -36,7 +34,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         onCreate(db)
     }
 
-    fun insertUser(name: String, email: String, password: String) {
+    fun insertUser(name: String, password: String, email: String) {
         val db = this.writableDatabase
         val values = ContentValues().apply {
             put(COLUMN_NAME, name)
@@ -51,5 +49,17 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val db = this.writableDatabase
         db.delete(TABLE_NAME, "$COLUMN_ID = ?", arrayOf(userId.toString()))
         db.close()
+    }
+
+    fun isEmailExists(email: String) : Boolean {
+        val db = this.readableDatabase
+        val query = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_MAİL = ?"
+        val cursor = db.rawQuery(query, arrayOf(email))
+
+        val exists = cursor.count > 0
+        cursor.close()
+        db.close()
+
+        return exists
     }
 }

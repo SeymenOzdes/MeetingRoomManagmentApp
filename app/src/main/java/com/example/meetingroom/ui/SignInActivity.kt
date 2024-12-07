@@ -20,7 +20,6 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_sign_in)
-
         val signUpButton: Button = findViewById(R.id.signUpButton)
         val textField: TextView = findViewById(R.id.fullNameEditText)
         val passwordField: TextView = findViewById(R.id.passwordEditText)
@@ -34,7 +33,6 @@ class SignInActivity : AppCompatActivity() {
             val name = textField.text.toString().trim()
             val password = passwordField.text.toString().trim()
             val email = emailField.text.toString().trim()
-
             if (loginAndSignInViewModel.validateForm(name, password, email)) {
                 loginAndSignInViewModel.addUser(name, password, email)
                 Toast.makeText(this, "Kayıt olundu", Toast.LENGTH_SHORT).show()
