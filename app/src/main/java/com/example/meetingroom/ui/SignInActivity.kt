@@ -20,10 +20,12 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_sign_in)
+
         val signUpButton: Button = findViewById(R.id.signUpButton)
         val textField: TextView = findViewById(R.id.fullNameEditText)
         val passwordField: TextView = findViewById(R.id.passwordEditText)
         val emailField: TextView = findViewById(R.id.emailEditText)
+        val logInButton: Button = findViewById(R.id.AlreadyHaveAccountButton)
 
         loginAndSignInViewModel.errorMessage.observe(this, Observer { errorMessage ->
             errorMessage?.let { showErrorDialog(it) }
@@ -39,6 +41,11 @@ class SignInActivity : AppCompatActivity() {
                 val loginIntent = Intent(this, LoginActivity::class.java)
                 startActivity(loginIntent)
             }
+        }
+
+        logInButton.setOnClickListener {
+            val loginIntent = Intent(this, LoginActivity::class.java)
+            startActivity(loginIntent)
         }
     }
 
