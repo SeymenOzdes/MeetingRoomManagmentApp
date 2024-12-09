@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
         logInButton.setOnClickListener {
             val email = emailField.text.toString().trim()
             val password = passwordField.text.toString().trim()
-            if (LoginAndSignInViewModel.validateForm(password, email)) {
+            if (LoginAndSignInViewModel.validateForm(email, password)) {
                 Toast.makeText(this, "Giriş yapıldı", Toast.LENGTH_SHORT).show()
                 val homePageIntent = Intent(this, HomePageActivity::class.java)
                 startActivity(homePageIntent)

@@ -17,12 +17,12 @@ class LoginAndSignInViewModel(application: Application) : AndroidViewModel(appli
     private val databaseHelper = DatabaseHelper(application)
 
     fun validateForm(name: String, password: String, email: String) : Boolean {
-        if(databaseHelper.isEmailExists(email)) {
-            _errorMessage.value = "Email Zaten Kayıtlı"
+        if (databaseHelper.checkUserCredentials(email)) {
+            _errorMessage.value = "Email zaten kayıtlı"
             return false
         }
         if (name.isEmpty()) {
-            _errorMessage.value = "Lütfen isim alanını boş bırakmayın"
+            _errorMessage.value = "Lütfen isim alanını boş bırakmayın."
             return false
         }
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -30,19 +30,23 @@ class LoginAndSignInViewModel(application: Application) : AndroidViewModel(appli
             return false
         }
         if (password.length < 8) {
-            _errorMessage.value = "Lütfen en az 8 karakter kullanın"
+            _errorMessage.value = "Lütfen en az 8 karakterli bir şifre kullanın."
             return false
         }
         _errorMessage.value = null
         return true
     }
-    fun validateForm(password: String, email: String) : Boolean {
+    fun validateForm(email: String, password: String) : Boolean {
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _errorMessage.value = "Lütfen Geçerli bir email adresi girin."
+            _errorMessage.value = "Lütfen Geçerli bir e-posta adresi girin."
             return false
         }
         if (password.length < 8) {
-            _errorMessage.value = "Lütfen en az 8 karakter kullanın"
+            _errorMessage.value = "Lütfen en az 8 karakter kullanın."
+            return false
+        }
+        if(!databaseHelper.checkUserCredentials(email, password)) {
+            _errorMessage.value = "E-posta veya şifre yanlış."
             return false
         }
         _errorMessage.value = null
@@ -55,9 +59,5 @@ class LoginAndSignInViewModel(application: Application) : AndroidViewModel(appli
 
     fun deleteUser(userId: Int) {
         databaseHelper.deleteUser(userId)
-    }
-
-    fun isEmailExists(email: String) : Boolean {
-        return databaseHelper.isEmailExists(email)
     }
 }

@@ -51,15 +51,26 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
     }
 
-    fun isEmailExists(email: String) : Boolean {
+    fun checkUserCredentials(email: String, password: String) : Boolean {
+        val db = this.readableDatabase
+        val query = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_MAİL = ? AND $COLUMN_PASSWORD = ?"
+        val cursor = db.rawQuery(query, arrayOf(email, password))
+
+        val isValid = cursor.count > 0
+        cursor.close()
+        db.close()
+
+        return isValid
+    }
+    fun checkUserCredentials(email: String) : Boolean {
         val db = this.readableDatabase
         val query = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_MAİL = ?"
         val cursor = db.rawQuery(query, arrayOf(email))
 
-        val exists = cursor.count > 0
+        val isValid = cursor.count > 0
         cursor.close()
         db.close()
 
-        return exists
+        return isValid
     }
 }
